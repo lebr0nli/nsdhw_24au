@@ -39,7 +39,8 @@ Follow the format to add your project:
 1. `github_account_name <https://github.com/github_account_name>`__ for
    `Project subject <github_account_name/README.rst>`__:
    https://github.com/github_account_name/project_name
-
+2. `lebr0nli <https://github.com/lebr0nli>`__ for `py-rbush <lebr0nli/README.rst>`__:
+    https://github.com/lebr0nli/py-rbush
 .. note::
 
   Append your project after the first example entry.  Do not delete the example
