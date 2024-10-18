@@ -4,14 +4,14 @@ PYTEST_CACHE = .pytest_cache/
 VENV_DIR = .venv
 MODULE = _matrix.*.so
 
-all: $(VENV_DIR) $(MODULE)
+all: $(MODULE)
 
 $(VENV_DIR):
 	$(PYTHON) -m venv $(VENV_DIR)
 	$(VENV_DIR)/bin/pip install --upgrade pip
 	$(VENV_DIR)/bin/pip install pybind11 pytest
 
-$(MODULE): build.py _matrix.cpp _matrix.h module.cpp
+$(MODULE): $(VENV_DIR) build.py _matrix.cpp _matrix.h module.cpp
 	$(VENV_DIR)/bin/$(PYTHON) build.py build_ext --inplace
 
 test: $(MODULE)
