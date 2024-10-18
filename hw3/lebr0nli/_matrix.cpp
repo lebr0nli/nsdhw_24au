@@ -101,17 +101,25 @@ Matrix multiply_tile(const Matrix &mat_A, const Matrix &mat_B, size_t tile_size)
 
     Matrix result(mat_A.nrow(), mat_B.ncol());
 
-    for (size_t row = 0; row < mat_A.nrow(); row += tile_size) {
-        for (size_t col = 0; col < mat_B.ncol(); col += tile_size) {
-            for (size_t m = 0; m < mat_A.ncol(); m += tile_size) {
-                size_t i_end = std::min(mat_A.nrow(), row + tile_size);
-                size_t j_end = std::min(mat_B.ncol(), col + tile_size);
-                size_t k_end = std::min(mat_A.ncol(), m + tile_size);
+    // Initialize result matrix with zeros
+    for (size_t i = 0; i < result.nrow(); ++i) {
+        for (size_t j = 0; j < result.ncol(); ++j) {
+            result(i, j) = 0.0;
+        }
+    }
 
-                for (size_t i = row; i < i_end; ++i) {
-                    for (size_t j = col; j < j_end; ++j) {
-                        for (size_t k = m; k < k_end; ++k) {
-                            result(i, j) += mat_A(i, k) * mat_B(k, j);
+    for (size_t i = 0; i < mat_A.nrow(); i += tile_size) {
+        for (size_t k = 0; k < mat_A.ncol(); k += tile_size) {
+            for (size_t j = 0; j < mat_B.ncol(); j += tile_size) {
+                size_t i_end = std::min(mat_A.nrow(), i + tile_size);
+                size_t k_end = std::min(mat_A.ncol(), k + tile_size);
+                size_t j_end = std::min(mat_B.ncol(), j + tile_size);
+
+                for (size_t ii = i; ii < i_end; ++ii) {
+                    for (size_t kk = k; kk < k_end; ++kk) {
+                        double r = mat_A(ii, kk);
+                        for (size_t jj = j; jj < j_end; ++jj) {
+                            result(ii, jj) += r * mat_B(kk, jj);
                         }
                     }
                 }
